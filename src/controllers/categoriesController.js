@@ -11,7 +11,7 @@ export async function listCategories(req, res) {
 }
 export async function addCategorie(req, res) {
   try {
-    const name = req.body;
+    const name = res.locals.name;
     await connection.query(
       `INSERT INTO categories(name) VALUES ('${name.name}')`
     );

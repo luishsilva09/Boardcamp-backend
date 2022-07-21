@@ -15,9 +15,9 @@ export default async function validCategorieName(req, res, next) {
       `SELECT * FROM categories WHERE name='${name.name}'`
     );
     if (existCat.rowCount !== 0) {
-      console.log(existCat);
       return res.sendStatus(409);
     }
+    res.locals.name = name;
     next();
   } catch (error) {
     console.log(error);
