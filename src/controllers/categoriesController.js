@@ -1,6 +1,9 @@
+import connection from "../dbStrategy/postgres.js";
+
 export async function listCategories(req, res) {
   try {
-    res.send("rota get categorias");
+    const categories = await connection.query(`SELECT * FROM categories`);
+    res.send(categories.rows);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
@@ -8,7 +11,11 @@ export async function listCategories(req, res) {
 }
 export async function addCategorie(req, res) {
   try {
-    res.send("Inserir categoria");
+    const name = req.body;
+    await connection.query(
+      `INSERT INTO categories(name) VALUES ('${name.name}')`
+    );
+    res.sendStatus(201);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);

@@ -1,10 +1,10 @@
 import { Router } from "express";
 
-const retalsRoute = Router();
+const rentalsRoute = Router();
 
-retalsRoute.get("/retals");
-retalsRoute.post("/retals");
-retalsRoute.post("/rentals/:id/return");
-retalsRoute.delete("/rentals/:id");
+rentalsRoute.get("/rentals");
+rentalsRoute.post("/rentals");
+rentalsRoute.post("/rentals/:id/return");
+rentalsRoute.delete("/rentals/:id");
 
-export default retalsRoute;
+export default rentalsRoute;
