@@ -20,7 +20,15 @@ export async function listCustomers(req, res) {
 }
 export async function findCustomer(req, res) {
   try {
-    res.send("procurando cliente");
+    const customerId = req.params.id;
+    const { rows: customerData } = await connection.query(
+      `SELECT * FROM  customers WHERE id=${customerId}`
+    );
+
+    if (customerData.length === 0) {
+      return res.sendStatus(404);
+    }
+    res.send(...customerData);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
