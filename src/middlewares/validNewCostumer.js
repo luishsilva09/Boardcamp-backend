@@ -1,9 +1,8 @@
 import joi from "joi";
-import joiDate from "@joi/date";
 import connection from "../dbStrategy/postgres.js";
 
-export default async function validNewCostumer(req, res, next) {
-  const costumerSchema = joi.object({
+export default async function validNewCustomers(req, res, next) {
+  const customerSchema = joi.object({
     name: joi.string().trim().required(),
     phone: joi
       .string()
@@ -16,12 +15,23 @@ export default async function validNewCostumer(req, res, next) {
     birthday: joi.date().iso().required(),
   });
   try {
-    const costumerData = req.body;
-    const { error } = costumerSchema.validate(costumerData, {
+    const customerData = req.body;
+    const { error } = customerSchema.validate(customerData, {
       abortEarly: false,
     });
-    console.log(error);
-    res.send("ok");
+    if (error) {
+      return res.sendStatus(400);
+    }
+    const existCustomer = await connection.query(
+      `SELECT * FROM customers WHERE cpf='${customerData.cpf}'`
+    );
+
+    if (existCustomer.rowCount !== 0) {
+      return res.sendStatus(409);
+    }
+
+    res.locals.customerData = customerData;
+    next();
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
