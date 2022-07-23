@@ -15,6 +15,6 @@ customersRoute.get("/customers", listCustomers);
 customersRoute.get("/customers/:id", findCustomer);
 
 customersRoute.post("/customers", validNewCostumer, addCustomer);
-customersRoute.put("/customers/:id", updateCustomer);
+customersRoute.put("/customers/:id", validNewCostumer, updateCustomer);
 
 export default customersRoute;

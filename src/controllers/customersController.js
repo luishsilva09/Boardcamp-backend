@@ -8,7 +8,7 @@ export async function listCustomers(req, res) {
     );
     if (cpf) {
       const { rows: customers } = await connection.query(
-        `SELECT * FROM customers WHERE cpf like '${cpf}%' `
+        `SELECT * FROM customers WHERE cpf like '${cpf}%'`
       );
       return res.send(customers);
     }
@@ -22,7 +22,8 @@ export async function findCustomer(req, res) {
   try {
     const customerId = req.params.id;
     const { rows: customerData } = await connection.query(
-      `SELECT * FROM  customers WHERE id=${customerId}`
+      `SELECT * FROM  customers WHERE id=$1`,
+      [customerId]
     );
 
     if (customerData.length === 0) {
