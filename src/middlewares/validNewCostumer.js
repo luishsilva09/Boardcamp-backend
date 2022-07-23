@@ -19,14 +19,19 @@ export default async function validNewCustomers(req, res, next) {
     const { error } = customerSchema.validate(customerData, {
       abortEarly: false,
     });
+
     if (error) {
       return res.sendStatus(400);
     }
     const existCustomer = await connection.query(
       `SELECT * FROM customers WHERE cpf='${customerData.cpf}'`
     );
-
     if (existCustomer.rowCount !== 0) {
+      if (existCustomer.rows[0].id === parseInt(req.params.id)) {
+        res.locals.customerData = customerData;
+        next();
+        return;
+      }
       return res.sendStatus(409);
     }
 
