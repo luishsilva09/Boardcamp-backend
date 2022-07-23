@@ -20,7 +20,7 @@ export async function updateCustomer(req, res) {
       `UPDATE customers SET name='${name}', phone='${phone}',cpf='${cpf}',birthday='${birthday}' WHERE id=$1`,
       [id]
     );
-    res.send("atualizar cliente");
+    res.sendStatus(200);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
