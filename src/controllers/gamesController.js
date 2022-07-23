@@ -2,7 +2,10 @@ import connection from "../dbStrategy/postgres.js";
 
 export async function listGames(req, res) {
   try {
-    res.send("lista jogos");
+    const { rows: games } = await connection.query(
+      `SELECT games.*,categories.name as "categoryName" FROM games JOIN categories ON games."categoryId"=categories.id  `
+    );
+    res.send(games);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
