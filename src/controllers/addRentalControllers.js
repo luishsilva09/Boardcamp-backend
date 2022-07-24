@@ -15,7 +15,7 @@ export async function addRental(req, res) {
         daysRented * gamePrice[0].pricePerDay
       }',NULL)`
     );
-    res.send(201);
+    res.sendStatus(201);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
