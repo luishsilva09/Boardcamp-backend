@@ -26,8 +26,6 @@ export default async function validNewrental(req, res, next) {
       `SELECT rentals."gameId" FROM rentals WHERE rentals."gameId"=$1`,
       [gameId]
     );
-    console.log(gamesRented);
-    console.log(existGame);
     if (
       existCustomer.length === 0 ||
       existGame.length === 0 ||

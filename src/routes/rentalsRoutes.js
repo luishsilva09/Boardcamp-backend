@@ -1,8 +1,6 @@
 import { Router } from "express";
-import {
-  addRental,
-  listRentals,
-} from "../controllers/createReadRentalControllers.js";
+import { addRental } from "../controllers/addRentalControllers.js";
+import { listRentals } from "../controllers/listRentalsController.js";
 import validNewrental from "../middlewares/validNewRental.js";
 
 const rentalsRoute = Router();
