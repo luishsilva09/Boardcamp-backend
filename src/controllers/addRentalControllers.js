@@ -4,7 +4,7 @@ import connection from "../dbStrategy/postgres.js";
 export async function addRental(req, res) {
   try {
     const { customerId, gameId, daysRented } = req.body;
-    const now = daysjs().format("YYYY-MM-DD");
+    const now = daysjs();
     const { rows: gamePrice } = await connection.query(
       `SELECT games."pricePerDay" FROM games WHERE id=$1`,
       [gameId]
