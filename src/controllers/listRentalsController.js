@@ -12,7 +12,6 @@ export async function listRentals(req, res) {
         JOIN games ON rentals."gameId"=games.id
         JOIN categories ON games."categoryId"=categories.id`;
     if (customerId) {
-      console.log("customer id");
       const { rows: rentalsData } = await connection.query(
         `${query} WHERE customers.id=$1`,
         [customerId]
@@ -20,7 +19,6 @@ export async function listRentals(req, res) {
       return res.send(rentalsData);
     }
     if (gameId) {
-      console.log("aqui");
       const { rows: rentalsData } = await connection.query(
         `${query} WHERE games.id=$1`,
         [gameId]

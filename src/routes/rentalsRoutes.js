@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { addRental } from "../controllers/addRentalControllers.js";
+import { deleteRental } from "../controllers/deleteRentalController.js";
 import { listRentals } from "../controllers/listRentalsController.js";
 import validNewrental from "../middlewares/validNewRental.js";
 
@@ -9,6 +10,6 @@ rentalsRoute.get("/rentals", listRentals);
 rentalsRoute.post("/rentals", validNewrental, addRental);
 
 rentalsRoute.post("/rentals/:id/return");
-rentalsRoute.delete("/rentals/:id");
+rentalsRoute.delete("/rentals/:id", deleteRental);
 
 export default rentalsRoute;
