@@ -22,14 +22,15 @@ export default async function validNewrental(req, res, next) {
       `SELECT * FROM games WHERE id=$1`,
       [gameId]
     );
-    const { rows: gamesRented } = await connection.query(
-      `SELECT rentals."gameId" FROM rentals WHERE rentals."gameId"=$1`,
-      [gameId]
+    const { rows: openRentals } = await connection.query(
+      `SELECT rentals.*,games."stockTotal" FROM rentals 
+      JOIN games ON games.id = rentals."gameId" 
+      WHERE "returnDate" IS NULL AND games.id = ${gameId}`
     );
     if (
       existCustomer.length === 0 ||
       existGame.length === 0 ||
-      gamesRented.length >= existGame[0].stockTotal
+      openRentals.length >= existGame[0].stockTotal
     ) {
       return res.sendStatus(400);
     }
