@@ -4,6 +4,7 @@ export async function listRentals(req, res) {
   try {
     const customerId = parseInt(req.query.customerId);
     const gameId = parseInt(req.query.gameId);
+    const status = req.query.status;
     const query = `
         SELECT rentals.*,json_build_object('id',customers.id,'name',customers.name) as customer,
         json_build_object('id',games.id,'name',games.name,'categoryId',games."categoryId",'categoryName',categories.name)as game
@@ -25,7 +26,6 @@ export async function listRentals(req, res) {
       );
       return res.send(rentalsData);
     }
-
     const { rows: rentalsData } = await connection.query(`${query} `);
     res.send(rentalsData);
   } catch (error) {

@@ -2,12 +2,18 @@ import connection from "../dbStrategy/postgres.js";
 
 export async function listGames(req, res) {
   try {
-    const { rows: games } = await connection.query(
-      `SELECT games.*,categories.name as "categoryName" FROM games  
-      JOIN categories 
-      ON games."categoryId"=categories.id
-     `
-    );
+    const gameName = req.query.name;
+    const query = `SELECT games.*,categories.name as "categoryName" FROM games  
+    JOIN categories 
+    ON games."categoryId"=categories.id
+   `;
+    if (gameName) {
+      const { rows: games } = await connection.query(
+        `${query} WHERE games.name ilike '${gameName}%'`
+      );
+      return res.send(games);
+    }
+    const { rows: games } = await connection.query(query);
     res.send(games);
   } catch (error) {
     console.log(error);
