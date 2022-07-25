@@ -2,7 +2,9 @@ import connection from "../dbStrategy/postgres.js";
 
 export async function listCategories(req, res) {
   try {
-    const categories = await connection.query(`SELECT * FROM categories`);
+    const categories = await connection.query(
+      `SELECT * FROM categories ${res.locals.data}`
+    );
     res.send(categories.rows);
   } catch (error) {
     console.log(error);

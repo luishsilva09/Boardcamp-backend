@@ -3,9 +3,10 @@ import connection from "../dbStrategy/postgres.js";
 export async function listGames(req, res) {
   try {
     const { rows: games } = await connection.query(
-      `SELECT games.*,categories.name as "categoryName" FROM games 
+      `SELECT games.*,categories.name as "categoryName" FROM games  
       JOIN categories 
-      ON games."categoryId"=categories.id  `
+      ON games."categoryId"=categories.id
+     `
     );
     res.send(games);
   } catch (error) {

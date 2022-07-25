@@ -29,7 +29,7 @@ export async function finishRental(req, res) {
         [rentalId]
       );
     }
-    res.send(200);
+    res.sendStatus(200);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
