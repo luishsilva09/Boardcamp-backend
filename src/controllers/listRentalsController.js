@@ -4,7 +4,7 @@ export async function listRentals(req, res) {
   try {
     const customerId = parseInt(req.query.customerId);
     const gameId = parseInt(req.query.gameId);
-
+    const status = req.query.status;
     const query = `
         SELECT rentals.*,json_build_object('id',customers.id,'name',customers.name) as customer,
         json_build_object('id',games.id,'name',games.name,'categoryId',games."categoryId",'categoryName',categories.name)as game
@@ -31,6 +31,18 @@ export async function listRentals(req, res) {
       const { rows: rentalsData } = await connection.query(
         `${query} WHERE games.id=$1`,
         [gameId]
+      );
+      return res.send(rentalsData);
+    }
+    if (status === "open") {
+      const { rows: rentalsData } = await connection.query(
+        `${query} WHERE rentals."returnDate" IS NULL`
+      );
+      return res.send(rentalsData);
+    }
+    if (status === "close") {
+      const { rows: rentalsData } = await connection.query(
+        `${query} WHERE rentals."returnDate" IS NOT NULL`
       );
       return res.send(rentalsData);
     }
