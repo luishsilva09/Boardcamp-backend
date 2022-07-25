@@ -12,7 +12,7 @@ export default async function validCategorieName(req, res, next) {
       return res.sendStatus(400);
     }
     const existCat = await connection.query(
-      `SELECT * FROM categories WHERE name='${name.name}'`
+      `SELECT * FROM categories WHERE name='${name.name.trim()}'`
     );
     if (existCat.rowCount !== 0) {
       return res.sendStatus(409);
